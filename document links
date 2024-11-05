@@ -1,0 +1,30 @@
+Setting up Ingress with NGINX - step by step
+NGINX is a widely used Ingress controller, we will run through how to set this up with Azure Kubernetes Service. We will set up two simple web services and use the NGINX Ingress to route the traffic accordingly.
+
+1. Connect to the AKS cluster
+First, we need to fire up your AKS cluster and connect to it. To do this, browse to the AKS cluster resource in the Azure Portal and click on connect. The commands needed to connect via your shell using the Azure CLI will be shown.
+
+2. Install the NGINX Ingress controller
+It will install the controller in the ingress-nginx namespace, creating that namespace if it doesn’t already exist.
+
+#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+
+
+3. Check the Ingress controller pod is running
+To check if the Ingress controller pod is running correctly, use the following command:
+
+kubectl get pods --namespace ingress-nginx
+
+4. Check the NGINX Ingress controller has been assigned a public IP address
+The command below will let you check if the NGINX Ingress controller has a public IP address already assigned to it.
+
+kubectl get service ingress-nginx-controller --namespace=ingress-nginx
+Note the service type is LoadBalancer:
+
+kubernetes ingress - loadbalancer
+Browsing to this IP address will show you the NGINX 404 page. This is because we have not set up any routing rules for our services yet.
+
+kubernetes ingress - nginx 404
+
+
+Document link: https://spacelift.io/blog/kubernetes-ingress
